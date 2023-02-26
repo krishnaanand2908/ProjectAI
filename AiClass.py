@@ -112,8 +112,10 @@ class AI:
         
         if self.name.lower() in self.special_names.keys():
             self.name = self.special_names.get(self.name)
-            print(fnt.apply("Special user detected!"))
+            print(fnt.apply("Special user detected!", "purple/bold/underline"))
             AI.speak("Special user detected...")
+        else:
+            self.name = self.name
             
         if (hour >= 0 and hour < 12) or hour == 12:
             print(fnt.apply(f'Good Morning {self.name}', 'green/bold/underline'))
@@ -295,16 +297,17 @@ class AI:
         
     @staticmethod
     def pdfMerge(pdfs):
-        if (type(pdfs) == list) or (type(pdfs) == tuple) or (type(pdfs) == set):
+        if (type(pdfs) == list) or (type(pdfs) == tuple) or (type(pdfs) == set):           
+            for pdf in pdfs:
+                print(fnt.apply(f"{pdf}\n", "cyan/bold"))
+            merger = PyPDF2.PdfMerger()
+            for pdf in pdfs:
+                merger.append(pdf)
+            merger.write("NewPDF.pdf")
+            merger.close()
+            print(fnt.apply("Operation Successfully Completed", "green/bold"))
+        else:
             raise AI.NotASequenceError("AI.pdfMerge takes 1 argument pdfs which must be a sequence(list, tuple or set)")
-        for pdf in pdfs:
-             print(fnt.apply(f"{pdf}\n", "cyan/bold"))
-        merger = PyPDF2.PdfMerger()
-        for pdf in pdfs:
-            merger.append(pdf)
-        merger.write("MergedFile.pdf")
-        merger.close()
-        print(fnt.apply("Operation Successfully Completed", "green/bold"))
     
     @staticmethod
     def mkfile(fileName, fileExtention, folderPath):

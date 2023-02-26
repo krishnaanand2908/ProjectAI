@@ -55,6 +55,31 @@ def main():
         elif "the date" in query or "date" in query:
             print(fnt.apply(parth.date, "blue/bold"))
             parth.speak(parth.date)
+            
+        elif "recite a poem" in query:
+            print(fnt.apply("Generating Poem...Please wait...", "green/bold"))
+            parth.speak("Generating Poem...Please wait...")
+            poem = parth.log_poem()
+            print(fnt.apply(poem, "yellow/bold"))
+            parth.speakFast(poem)
+        
+        elif "merge pdf" in query:
+            print(fnt.apply("Enter the folder path containing your PDFs", "cyan/bold"))
+            parth.speak("Enter the folder path containing your PDFs")
+            Fpath = input(fnt.apply("=> "))
+            try:
+                folder = os.listdir(Fpath)
+                pdfs = []
+                for file in folder:
+                    if file.endswith(".pdf"):
+                        pdfs.append(os.path.join(folder, file))
+                parth.pdfMerge(pdfs)
+            except Exception as e:
+                print(fnt.apply(e, "red/bold"))
+                parth.speak(e)
+                input(fnt.apply("Press enter to continue: ", "cyan/bold"))
+            
+            
         
         elif "shutdown" in query or "bye" in query:
             parth.shutdown()
